@@ -1,0 +1,37 @@
+/*
+.header {
+    background-color: #f00;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content:flex-start;
+}
+
+.header .img-box {
+    padding-top: 10px;
+    width: 26.3671875%;
+    margin: 0;
+    vertical-align: center;
+}
+
+.header .img-box img {
+    vertical-align: center;
+}
+
+.texto-logo {
+    padding-left: 1.953125%;
+    font-family: sans-serif;
+}
+
+.texto-logo h1 {
+    color:#fff;
+}
+
+.texto-logo h3 {
+    color:#aaa;
+}
+*/
+div.cabecalho {
+    color: #fff;
+}
