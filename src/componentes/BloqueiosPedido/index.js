@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {Container, Modal, Button, Row, Col, Form} from 'react-bootstrap';
+import {Container, Row, Col} from 'react-bootstrap';
 
 
 export default class BloqueiosPedido extends Component {
@@ -22,12 +22,8 @@ export default class BloqueiosPedido extends Component {
     }
 
     ajustarData = (data) => {
-        let dummy = new Date(data);
-        let dia = ("0" + dummy.getDate()).slice(-2);
-        let mes = ("0" + dummy.getMonth() + 1).slice(-2);
-        let ano = dummy.getFullYear();
-        let result = dia + '/' + mes + '/' + ano;
-        return result;
+        let dummy  = new Date(data);
+        return dummy.toLocaleDateString('pt-BR', {timeZone: 'UTC'});
     }
 
     renderBloqueioPedido = (bloqueio, indice) => {
