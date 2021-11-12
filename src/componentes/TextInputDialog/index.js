@@ -3,13 +3,12 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import {Container, Modal, Button, Row, Col, Form} from 'react-bootstrap';
 
 
-export default class Mensagem extends Component {
-
+export default class TextInputDialog extends Component {
     constructor(props) {
         super(props);
-        // this.state = {
-        //     texto: "",
-        // }
+        this.state = {
+            texto: this.props.texto,
+        }
     }
 
     render() {
@@ -26,7 +25,12 @@ export default class Mensagem extends Component {
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body style={{background: "#dddddd"}} className="p-3 m-3">
-                    {this.props.texto}
+                    <Form.Group>
+                        <Form.Control className="mt-3" type="text" maxLength="120" id="texo"
+                                      name="texto"
+                                      onChange={e => this.setState({texto: e.target.value})}
+                                      placeholder={this.props.texto}/>
+                    </Form.Group>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="success" onClick={this.props.onHideSuccess}>OK</Button>
@@ -34,5 +38,4 @@ export default class Mensagem extends Component {
             </Modal>
         );
     }
-
 }

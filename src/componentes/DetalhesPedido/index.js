@@ -24,8 +24,8 @@ export default class DetalhesPedido extends Component {
 
     async componentDidMount() {
         let pedido = this.props.pedido?.pedidofilial;
-        const url = `http://localhost:8000/get-itens-pedido/${this.props?.pedido?.pedidofilial}`;
-        // const url = "http://localhost:8000/get-itens-pedido/" + this.props.pedido;
+        const server_url = process.env.REACT_APP_CONNECTOR_BACKEND_URL
+        const url = `${server_url}/get-itens-pedido/${this.props?.pedido?.pedidofilial}`
         const response = await fetch(url);
         const dummy = await response.json();
         const data = JSON.parse(dummy);
@@ -33,17 +33,15 @@ export default class DetalhesPedido extends Component {
     }
 
     formatarData = (data) => {
-        let dummy = new Date(data);
-        let dia = ("0" + dummy.getDate()).slice(-2);
-        let mes = ("0" + dummy.getMonth() + 1).slice(-2);
-        let ano = dummy.getFullYear();
-        let result = dia + '/' + mes + '/' + ano;
-        return result;
+        let dummy  = new Date(data);
+        let dataFormatada = dummy.toLocaleDateString('pt-BR', {timeZone: 'UTC'});
+        return dataFormatada;
     }
 
+    /*
     desbloquearPedido = (pedido) => {
-        const url = "http://localhost:8000/desbloquear-pedido/?numero_pedido_filial=" + pedido.pedidofilial
-            + "&justificativa=" + this.state.justificativa + "&codigo_usuario_liberador=" + this.state.usuario;
+        const backend_url = process.env.REACT_APP_CONNECTOR_BACKEND_URL;
+        const url = `${backend_url}/desbloquear-pedido/?numero_pedido_filial=${pedido.pedidofilial}&justificativa=${this.state.justificativa}&codigo_usuario_liberador=${this.state.usuario}`;
         fetch(url)
             .then(response => {
                 return response.json();
@@ -53,10 +51,12 @@ export default class DetalhesPedido extends Component {
             })
             .catch(error => console.log(error));
     }
+    */
 
     /*
         desbloquearPedido = (pedido) => {
-            const url = "http://0.0.0.0:8000/desbloquear-pedido/";
+            const backend_url = process.env.REACT_APP_CONNECTOR_BACKEND_URL;
+            const url = `${backend_url}/desbloquear-pedido/`;
             const parametros = {
                 "numero_pedido_filial": pedido.pedidofilial,
                 "codigo_usuario_liberador": this.state.usuario,
@@ -68,16 +68,17 @@ export default class DetalhesPedido extends Component {
             });
 
         }
-
+*/
         desbloquearPedido = (pedido) => {
-            const url = "http://localhost:8000/desbloquear-pedido/";
+            const backend_url = process.env.REACT_APP_CONNECTOR_BACKEND_URL;
+            const url = `${backend_url}/desbloquear-pedido/`;
             const requestOptions = {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({
-                    "numero_pedido_filial": pedido.pedidofilial,
-                    "codigo_usuario_liberador": this.state.usuario,
-                    "justificativa": this.state.justificativa,
+                    "numero_pedido_filial": pedido?.pedidofilial,
+                    "codigo_usuario_liberador": this.state?.usuario,
+                    "justificativa": this.state?.justificativa,
                 })
             };
             fetch(url, requestOptions)
@@ -89,7 +90,6 @@ export default class DetalhesPedido extends Component {
                 })
                 .catch(error => console.log(error));
         }
-    */
 
     botaoDesbloquearHandler = () => {
         this.desbloquearPedido(this.state.pedido);
@@ -196,7 +196,7 @@ export default class DetalhesPedido extends Component {
                     <Row className="sm justify-content-center font-weight-bold">
                         BLOQUEIOS DO PEDIDO:
                     </Row>
-                    <BloqueiosPedido pedido={this.state.pedido}/>
+                    <BloqueiosPedido pedido={this.state.pedido} usuario={this.state?.usuario} />
                     <hr/>
                 </Container>
                 <Form.Group>
@@ -241,7 +241,7 @@ export default class DetalhesPedido extends Component {
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="success" disabled={!this.state.isUsuarioAutorizado}
-                            onClick={this.botaoDesbloquearHandler}>Desbloquear</Button>
+                            onClick={this.botaoDesbloquearHandler}>Desbloquear Todos</Button>
                     <Button variant="danger" onClick={this.props.onHideCancel}>Fechar</Button>
                 </Modal.Footer>
             </Modal>

@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {Container, Row, Col} from 'react-bootstrap';
+import {Container, Row, Col, Button} from 'react-bootstrap';
+import Dialog from 'react-bootstrap-dialog';
 
 
 export default class BloqueiosPedido extends Component {
@@ -8,13 +9,15 @@ export default class BloqueiosPedido extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            usuarioLiberador: props.usuario,
             pedido: props.pedido,
             bloqueiosPedido: [],
         }
     }
 
     async componentDidMount() {
-        const url = "http://localhost:8000/get-bloqueios-pedido/" + this.props.pedido.pedidofilial;
+        const backend_url = process.env.REACT_APP_CONNECTOR_BACKEND_URL;
+        const url = `${backend_url}/get-bloqueios-pedido/${this.props.pedido.pedidofilial}`;
         const response = await fetch(url);
         const dummy = await response.json();
         const data = JSON.parse(dummy);
@@ -26,12 +29,59 @@ export default class BloqueiosPedido extends Component {
         return dummy.toLocaleDateString('pt-BR', {timeZone: 'UTC'});
     }
 
+    exibirCaixaDialogoMotivoDesbloqueio = (indiceItemBloqueio) => {
+        this.dialog.show({
+            body: 'Justificativa para o desbloqueio:',
+            prompt: Dialog.TextPrompt({placeholder: 'Entre com a justificativa', required: true}),
+            actions: [
+                Dialog.CancelAction(),
+                Dialog.OKAction((dialog) => {
+                    const justificativa = dialog.value;
+                    this.desbloquearItemPedido(indiceItemBloqueio, justificativa);
+                    window.location.reload(false);    // *!* TESTE
+                })
+            ]
+        });
+    }
+
+    desbloquearItemPedido = (indiceItem, justificativa) => {
+        const backend_url = process.env.REACT_APP_CONNECTOR_BACKEND_URL;
+        const url = `${backend_url}/desbloquear-item-pedido/`;
+        const requestOptions = {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                "numero_pedido_filial": this.state?.pedido?.pedidofilial,
+                "codigo_usuario_liberador": this.state?.usuarioLiberador,
+                "justificativa": justificativa,
+                "item_bloqueio": indiceItem,
+            })
+        };
+        fetch(url, requestOptions)
+            .then(response => {
+                return response.json();
+            })
+            .then(d => {
+                this.setState({ pedidos: [d], carregando: false });
+            })
+            .catch(error => console.log(error));
+    }
+
     renderBloqueioPedido = (bloqueio, indice) => {
         return (
             <>
                 <Row key={indice}>
                     <Col sm> Data: <span className="text-bold sm">{this.ajustarData(bloqueio.dt_inclusao)}</span> </Col>
                     <Col sm> Motivo: <span className="text-bold sm">{bloqueio.ds_motivo}</span> </Col>
+                    <Col sm> <Button variant="success" disabled={false && !this.state.isUsuarioAutorizado}
+                                     onClick={
+                                         ()=> this.exibirCaixaDialogoMotivoDesbloqueio(bloqueio.item_motivo)  // this.desbloquearItemPedido(bloqueio.item_motivo)
+                                     }
+                            >
+                                    Desbloquear
+                            </Button>
+                    </Col>
+                    <Dialog ref={(component) => { this.dialog = component }} />
                 </Row>
                 <br/>
                 <hr/>

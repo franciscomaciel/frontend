@@ -1,6 +1,7 @@
 import React from 'react';
 import ListaPedidos from './componentes/ListaPedidos';
 import 'bootstrap/dist/css/bootstrap.min.css';
+
 import './App.css';
 
 

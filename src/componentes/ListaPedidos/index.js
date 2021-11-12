@@ -57,12 +57,9 @@ export default class ListaPedidos extends React.Component {
     }
 
     formatarData = (data) => {
-        let dummy = new Date(data);
-        let dia = ("0" + dummy.getDate()).slice(-2);
-        let mes = ("0" + dummy.getMonth() + 1).slice(-2);
-        let ano = dummy.getFullYear();
-        let result = dia + '/' + mes + '/' + ano;
-        return result;
+        let dummy  = new Date(data);
+        let dataFormatada = dummy.toLocaleDateString('pt-BR', {timeZone: 'UTC'});
+        return dataFormatada;
     }
 
     selecionarPedidoParaExibirDetalhes = (pedido) => {
@@ -78,7 +75,8 @@ export default class ListaPedidos extends React.Component {
     detalhesBloqueioClickHandler = (pedido) => this.selecionarPedidoParaExibirDetalhes(pedido);
 
     async componentDidMount() {
-        const url = "http://localhost:8000/pedidos-bloqueados/";
+        const backend_url = process.env.REACT_APP_CONNECTOR_BACKEND_URL;
+        const url = `${backend_url}/pedidos-bloqueados/`;
         fetch(url)
             .then(response => {
                 return response.json();
@@ -139,7 +137,7 @@ export default class ListaPedidos extends React.Component {
     render() {
         const listaPedidos = this.state.pedidos;
         let result;
-        if (listaPedidos != []) {
+        if (listaPedidos != "[]") {
             result = (
                 <>
                     {
