@@ -30,6 +30,7 @@ export default class BloqueiosPedido extends Component {
     }
 
     exibirCaixaDialogoMotivoDesbloqueio = (indiceItemBloqueio) => {
+        Dialog.setOptions({'defaultCancelLabel': 'Cancelar'});
         this.dialog.show({
             body: 'Justificativa para o desbloqueio:',
             prompt: Dialog.TextPrompt({placeholder: 'Entre com a justificativa', required: true}),

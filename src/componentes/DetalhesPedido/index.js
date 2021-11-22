@@ -5,6 +5,7 @@ import BloqueiosPedido from '../BloqueiosPedido';
 import ItensPedido from '../ItensPedido';
 import NumberFormat from "react-number-format";
 import axios from 'axios';
+import Dialog from "react-bootstrap-dialog";
 
 
 export default class DetalhesPedido extends Component {
@@ -69,7 +70,7 @@ export default class DetalhesPedido extends Component {
 
         }
 */
-        desbloquearPedido = (pedido) => {
+        desbloquearPedido = (pedido, justificativa) => {
             const backend_url = process.env.REACT_APP_CONNECTOR_BACKEND_URL;
             const url = `${backend_url}/desbloquear-pedido/`;
             const requestOptions = {
@@ -78,7 +79,7 @@ export default class DetalhesPedido extends Component {
                 body: JSON.stringify({
                     "numero_pedido_filial": pedido?.pedidofilial,
                     "codigo_usuario_liberador": this.state?.usuario,
-                    "justificativa": this.state?.justificativa,
+                    "justificativa": justificativa,
                 })
             };
             fetch(url, requestOptions)
@@ -91,9 +92,21 @@ export default class DetalhesPedido extends Component {
                 .catch(error => console.log(error));
         }
 
-    botaoDesbloquearHandler = () => {
-        this.desbloquearPedido(this.state.pedido);
-        this.props.onHideSuccess();
+    botaoDesbloquearTodosHandler = () => {
+        Dialog.setOptions({'defaultCancelLabel': 'Cancelar'});
+        this.dialog.show({
+            body: 'Justificativa para o desbloqueio:',
+            prompt: Dialog.TextPrompt({placeholder: 'Entre com a justificativa', required: true}),
+            actions: [
+                Dialog.CancelAction(),
+                Dialog.OKAction((dialog) => {
+                    const justificativa = dialog.value;
+                    this.desbloquearPedido(this.state.pedido, justificativa);
+                    this.props.onHideSuccess();
+                    window.location.reload(false);    // *!* TESTE
+                })
+            ]
+        });
     }
 
     renderCabecalhoPedido = () => {
@@ -199,11 +212,12 @@ export default class DetalhesPedido extends Component {
                     <BloqueiosPedido pedido={this.state.pedido} usuario={this.state?.usuario} />
                     <hr/>
                 </Container>
-                <Form.Group>
-                    <Form.Control className="mt-3" type="text" maxLength="120" id="justificativa" name="justificativa"
-                                  onChange={e => this.setState({justificativa: e.target.value})}
-                                  placeholder="Informe a justificativa para o desbloqueio."/>
-                </Form.Group>
+                {/* JUSTIFICATIVA ANTIGA DE DESBLOQUEIO *!* */}
+                {/*<Form.Group>*/}
+                {/*    <Form.Control className="mt-3" type="text" maxLength="120" id="justificativa" name="justificativa"*/}
+                {/*                  onChange={e => this.setState({justificativa: e.target.value})}*/}
+                {/*                  placeholder="justificativa para o desbloqueio."/>*/}
+                {/*</Form.Group>*/}
             </>
         );
     }
@@ -241,8 +255,9 @@ export default class DetalhesPedido extends Component {
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="success" disabled={!this.state.isUsuarioAutorizado}
-                            onClick={this.botaoDesbloquearHandler}>Desbloquear Todos</Button>
+                            onClick={this.botaoDesbloquearTodosHandler}>Desbloquear Todos</Button>
                     <Button variant="danger" onClick={this.props.onHideCancel}>Fechar</Button>
+                    <Dialog ref={(component) => { this.dialog = component }} />
                 </Modal.Footer>
             </Modal>
         );
