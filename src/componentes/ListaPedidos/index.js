@@ -95,7 +95,7 @@ export default class ListaPedidos extends React.Component {
     // PARA O FILTRO FUNCIONAR !!!!!!!! *!*
     renderPedido = (pedido, indice) => {
         // const result = pedido.filial == "04" ?
-        const result = this.props.filtro && pedido.filial == this.props.filtro ?
+        const result = this.props.filtro && pedido.filial === this.props.filtro ?
             (
             <>
         <article className="listagem-artigos mb-3 p-3" key={indice}>
