@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {Container, Modal, Button, Row, Col, Form} from 'react-bootstrap';
+import { Modal, Button } from 'react-bootstrap';
 
 
 export default class Mensagem extends Component {

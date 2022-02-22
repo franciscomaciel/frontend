@@ -1,10 +1,9 @@
 import React, {Component} from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {Container, Modal, Button, Row, Col, Form} from 'react-bootstrap';
+import { Container, Modal, Button, Row, Col } from 'react-bootstrap';
 import BloqueiosPedido from '../BloqueiosPedido';
 import ItensPedido from '../ItensPedido';
 import NumberFormat from "react-number-format";
-import axios from 'axios';
 import Dialog from "react-bootstrap-dialog";
 
 
@@ -188,8 +187,6 @@ export default class DetalhesPedido extends Component {
                             <span className="font-weight-bold justify-content-start">
                                     {this.state.pedido.pedido}
                                 </span> <br/>
-                            Emissão:
-                            Valor: <br/>
                         </Col>
                     </Row>
                     <hr/>

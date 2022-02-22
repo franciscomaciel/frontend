@@ -101,8 +101,3 @@ export default class ItensPedido extends Component {
         );
     }
 }
-
-/*
-NU_PEDIDO_FILIAL, NU_ITEM, CODIGO_PRODUTO, DESCRICAO_PRODUTO,  QUANTIDADE, PRECO_UNITARIO,  VOLUMES,  VALOR,
- CUSTO_MEDIO,  PERC_MB
- */

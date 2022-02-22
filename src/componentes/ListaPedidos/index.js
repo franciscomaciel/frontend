@@ -16,6 +16,7 @@ export default class ListaPedidos extends React.Component {
             pedidoSelecionado: null,
             exibirMensagem: false,
             mensagem: "",
+            filialSelecionada: "",
         }
         this.getUsuarioConectado = this.getUsuarioConectado.bind(this);
         this.fecharModalDetalhesCancelar = this.fecharModalDetalhesCancelar.bind(this);
@@ -92,8 +93,37 @@ export default class ListaPedidos extends React.Component {
         this.setState({pedidos: data, pedidoSelecionado: (data[0] ? data[0] : null)});
     }
 
+    // PARA O FILTRO FUNCIONAR !!!!!!!! *!*
     renderPedido = (pedido, indice) => {
-        return (
+        // const result = pedido.filial == "04" ?
+        const result = this.props.filtro && pedido.filial == this.props.filtro ?
+            (
+            <>
+        <article className="listagem-artigos mb-3 p-3" key={indice}>
+            Vendedor: <span className="font-weight-bold">{pedido.vendedor}</span> <br/>
+            Cliente: <span className="font-weight-bold">{pedido.cliente}</span> <br/>
+            Filial: <span className="font-weight-bold">{pedido.filial}</span> - Pedido Número: <span
+            className="font-weight-bold"> {pedido.pedido} </span><br/>
+            Valor: <span className="font-weight-bold"><NumberFormat value={pedido.valor} displayType={'text'}
+                                                                    thousandSeparator={'.'}
+                                                                    decimalSeparator={','} prefix={'R$ '}
+                                                                    decimalScale={2} fixedDecimalScale={true}/>
+                            </span><br/>
+            Emissão: <span className="font-weight-bold">{this.formatarData(pedido.emissao)} </span> -
+            Entrada: <span className="font-weight-bold">{this.formatarData(pedido.entrada)}</span> <br/>
+            Bloqueios:
+            <Button data-tip data-for="detalhesBloqueioTip" className="bg-danger"
+                    onClick={(evt) => {
+                        this.detalhesBloqueioClickHandler(pedido)
+                    }}>{pedido.motivobloqueio}
+            </Button><br/>
+            <ReactTooltip id="detalhesBloqueioTip" place="top" effect="solid">Clique para ver os detalhes do
+                bloqueio.</ReactTooltip>
+        </article>
+                </>
+            )
+                :
+            (
             <>
                 <article className="listagem-artigos mb-3 p-3" key={indice}>
                     Vendedor: <span className="font-weight-bold">{pedido.vendedor}</span> <br/>
@@ -117,7 +147,10 @@ export default class ListaPedidos extends React.Component {
                         bloqueio.</ReactTooltip>
                 </article>
             </>
-        );
+            )
+        ;
+        // : null;
+        return result;
     }
 
     /*
