@@ -2,7 +2,6 @@ import NumberFormat from "react-number-format";
 import {Button} from "react-bootstrap";
 import ReactTooltip from "react-tooltip";
 import DetalhesPedido from "../DetalhesPedido";
-import Mensagem from "../Mensagem";
 import React from "react";
 
 export default class ListaPedidos extends React.Component {
@@ -64,7 +63,7 @@ export default class ListaPedidos extends React.Component {
     }
 
     selecionarPedidoParaExibirDetalhes = (pedido) => {
-        if (pedido != null) {
+        if (pedido !== null) {
             this.setState({
                     pedidoSelecionado: pedido,
                     mostrarDetalhesPedido: true
@@ -170,7 +169,7 @@ export default class ListaPedidos extends React.Component {
     render() {
         const listaPedidos = this.state.pedidos;
         let result;
-        if (listaPedidos != "[]") {
+        if (listaPedidos !== "[]") {
             result = (
                 <>
                     {
