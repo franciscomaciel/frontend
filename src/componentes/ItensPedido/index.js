@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {Container, Modal, Button, Row, Col, Form} from 'react-bootstrap';
+import {Container, Row, Col } from 'react-bootstrap';
 import NumberFormat from "react-number-format";
 
 

@@ -23,7 +23,6 @@ export default class DetalhesPedido extends Component {
     }
 
     async componentDidMount() {
-        let pedido = this.props.pedido?.pedidofilial;
         const server_url = process.env.REACT_APP_CONNECTOR_BACKEND_URL
         const url = `${server_url}/get-itens-pedido/${this.props?.pedido?.pedidofilial}`
         const response = await fetch(url);
