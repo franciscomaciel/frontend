@@ -77,7 +77,7 @@ export default class ListaPedidos extends React.Component {
     async componentDidMount() {
         const backend_url = process.env.REACT_APP_CONNECTOR_BACKEND_URL;
         const url = `${backend_url}/pedidos-bloqueados/`;
-        fetch(url)
+        await fetch(url)
             .then(response => {
                 return response.json();
             })
