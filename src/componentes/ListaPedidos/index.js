@@ -75,7 +75,8 @@ export default class ListaPedidos extends React.Component {
     detalhesBloqueioClickHandler = (pedido) => this.selecionarPedidoParaExibirDetalhes(pedido);
 
     async componentDidMount() {
-        const url = `:8000/pedidos-bloqueados/`;
+        const backend_url = process.env.REACT_APP_CONNECTOR_BACKEND_URL;
+        const url = `${backend_url}/pedidos-bloqueados/`;
         await fetch(url)
             .then(response => {
                 return response.json();

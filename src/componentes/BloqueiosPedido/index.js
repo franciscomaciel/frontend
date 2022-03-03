@@ -16,7 +16,8 @@ export default class BloqueiosPedido extends Component {
     }
 
     async componentDidMount() {
-        const url = `:8000/get-bloqueios-pedido/${this.props.pedido.pedidofilial}`;
+        const backend_url = process.env.REACT_APP_CONNECTOR_BACKEND_URL;
+        const url = `${backend_url}/get-bloqueios-pedido/${this.props.pedido.pedidofilial}`;
         const response = await fetch(url);
         const dummy = await response.json();
         const data = JSON.parse(dummy);
@@ -45,7 +46,8 @@ export default class BloqueiosPedido extends Component {
     }
 
     desbloquearItemPedido = (indiceItem, justificativa) => {
-        const url = `:8000/desbloquear-item-pedido/`;
+        const backend_url = process.env.REACT_APP_CONNECTOR_BACKEND_URL;
+        const url = `${backend_url}/desbloquear-item-pedido/`;
         const requestOptions = {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
