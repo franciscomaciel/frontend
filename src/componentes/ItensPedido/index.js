@@ -15,7 +15,7 @@ export default class ItensPedido extends Component {
     }
 
     async componentDidMount() {
-        const url = `/get-itens-pedido/${this.props?.pedido?.pedidofilial}`
+        const url = `:8000/get-itens-pedido/${this.props?.pedido?.pedidofilial}`
         const response = await fetch(url);
         const dummy = await response.json();
         const data = JSON.parse(dummy);

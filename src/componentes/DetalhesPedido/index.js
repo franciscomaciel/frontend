@@ -23,7 +23,7 @@ export default class DetalhesPedido extends Component {
     }
 
     async componentDidMount() {
-        const url = `/get-itens-pedido/${this.props?.pedido?.pedidofilial}`
+        const url = `:8000/get-itens-pedido/${this.props?.pedido?.pedidofilial}`
         const response = await fetch(url);
         const dummy = await response.json();
         const data = JSON.parse(dummy);
@@ -68,7 +68,7 @@ export default class DetalhesPedido extends Component {
         }
 */
         desbloquearPedido = (pedido, justificativa) => {
-            const url = `/desbloquear-pedido/`;
+            const url = `:8000/desbloquear-pedido/`;
             const requestOptions = {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
