@@ -228,6 +228,7 @@ export default class DetalhesPedido extends Component {
         return (
             <Modal
                 {...this.props}
+                onHide={this.props.onHideCancel}
                 size="lg"
                 aria-labelledby="contained-modal-title-vcenter"
                 centered
