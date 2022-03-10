@@ -167,7 +167,6 @@ export default class DetalhesPedido extends Component {
                     <Row>
                         <Col className="sm-2 justify-content-start">
                             Vendedor: <span className="font-weight-bold">{this.state.pedido && this.state.pedido.vendedor}</span><br/>
-                            Pedido: <span className="font-weight-bold">{this.state.pedido.pedido}</span><br/>
                             Emissão: <span className="font-weight-bold justify-content-start">
                                                     {this.formatarData(this.state.pedido && this.state.pedido.emissao)}
                                          </span><br/>
@@ -180,12 +179,6 @@ export default class DetalhesPedido extends Component {
                                                   decimalScale={2}
                                                   fixedDecimalScale={true}/> </span>
                             <br/>
-                        </Col>
-                        <Col className="sm-4">
-                            <span className="font-weight-bold justify-content-start"></span><br/>
-                            <span className="font-weight-bold justify-content-start">
-                                    {this.state.pedido.pedido}
-                                </span> <br/>
                         </Col>
                     </Row>
                     <hr/>

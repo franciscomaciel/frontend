@@ -72,8 +72,8 @@ export default class BloqueiosPedido extends Component {
         return (
             <>
                 <Row key={indice}>
-                    <Col sm> Data: <span className="text-bold sm">{this.ajustarData(bloqueio.dt_inclusao)}</span> </Col>
-                    <Col sm> Motivo: <span className="text-bold sm">{bloqueio.ds_motivo}</span> </Col>
+                    <Col sm> Data: <span className="font-weight-bold sm">{this.ajustarData(bloqueio.dt_inclusao)}</span> </Col>
+                    <Col sm> Motivo: <span className="font-weight-bold sm">{bloqueio.ds_motivo}</span> </Col>
                     <Col sm> <Button variant="success" disabled={false && !this.state.isUsuarioAutorizado}
                                      onClick={
                                          ()=> this.exibirCaixaDialogoMotivoDesbloqueio(bloqueio.item_motivo)  // this.desbloquearItemPedido(bloqueio.item_motivo)

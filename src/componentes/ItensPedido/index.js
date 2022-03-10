@@ -28,8 +28,8 @@ export default class ItensPedido extends Component {
     //         <>
     //             <Row key={indice}>
     //                 ITEM_PEDIDO: {JSON.stringify(itemPedido)}
-    //                 {/*<Col sm> Data: <span className="text-bold sm">{JSON.stringify(itemPedido)}</span> </Col>*/}
-    //                 {/*<Col sm> Motivo: <span className="text-bold sm">{itemPedido.ds_motivo}</span> </Col>*/}
+    //                 {/*<Col sm> Data: <span className="font-weight-bold sm">{JSON.stringify(itemPedido)}</span> </Col>*/}
+    //                 {/*<Col sm> Motivo: <span className="font-weight-bold sm">{itemPedido.ds_motivo}</span> </Col>*/}
     //             </Row>
     //             <br/>
     //             <hr/>
@@ -42,15 +42,15 @@ export default class ItensPedido extends Component {
             <>
                 <Row key={indice}>
                     <Row>
-                        <Col sm> N° Item: <span className="text-bold sm">{itemPedido.nu_item}</span> </Col>
-                        <Col sm> Descrição: <span className="text-bold sm">{itemPedido.codigo_produto} -
+                        <Col sm> N° Item: <span className="font-weight-bold sm">{itemPedido.nu_item}</span> </Col>
+                        <Col sm> Descrição: <span className="font-weight-bold sm">{itemPedido.codigo_produto} -
                             {itemPedido.descricao_produto}</span> </Col>
                     </Row>
                     <br/>
                     <Row>
-                        <Col> QTD: <span className="text-bold">{itemPedido.quantidade}</span> </Col>
-                        <Col> Volumes: <span className="text-bold">{itemPedido.volumes}</span> </Col>
-                        <Col> Custo: <span className="text-bold"><NumberFormat value={itemPedido.custo_medio}
+                        <Col> QTD: <span className="font-weight-bold">{itemPedido.quantidade}</span> </Col>
+                        <Col> Volumes: <span className="font-weight-bold">{itemPedido.volumes}</span> </Col>
+                        <Col> Custo: <span className="font-weight-bold"><NumberFormat value={itemPedido.custo_medio}
                                                                                displayType={'text'}
                                                                                thousandSeparator={'.'}
                                                                                decimalSeparator={','}
