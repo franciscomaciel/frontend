@@ -62,8 +62,8 @@ export default class BloqueiosPedido extends Component {
             .then(response => {
                 return response.json();
             })
-            .then(d => {
-                this.setState({ pedidos: [d], carregando: false });
+            .then(data => {
+                this.setState({ bloqueiosPedido: data });
             })
             .catch(error => console.log(error));
     }
