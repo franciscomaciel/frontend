@@ -6,7 +6,6 @@ import ItensPedido from '../ItensPedido';
 import NumberFormat from "react-number-format";
 import Dialog from "react-bootstrap-dialog";
 
-
 export default class DetalhesPedido extends Component {
 
     constructor(props) {
@@ -50,37 +49,36 @@ export default class DetalhesPedido extends Component {
             })
             .catch(error => console.log(error));
     }
-    */
 
-    /*
-        desbloquearPedido = (pedido) => {
+        desbloquearPedido = (pedido, justificativa) => {
             const backend_url = process.env.REACT_APP_CONNECTOR_BACKEND_URL;
             const url = `${backend_url}/desbloquear-pedido/`;
             const parametros = {
-                "numero_pedido_filial": pedido.pedidofilial,
-                "codigo_usuario_liberador": this.state.usuario,
-                "justificativa": this.state.justificativa,
+                "numero_pedido_filial": pedido?.pedidofilial,
+                "codigo_usuario_liberador": this.state?.usuario,
+                "justificativa": justificativa,
             };
-            axios.post(url, { parametros }).then(res => {
-                console.log(res);
-                console.log(res.data);
-            });
+            axios.post(url, parametros).then(res => {
+                this.setState({ pedidos: [res], carregando: false });
+                return res.json();
+            }).catch(err => { console.log(err) });
 
         }
 */
-        desbloquearPedido = (pedido, justificativa) => {
+
+        desbloquearPedido = async (pedido, justificativa) => {
             const backend_url = process.env.REACT_APP_CONNECTOR_BACKEND_URL;
             const url = `${backend_url}/desbloquear-pedido/`;
             const requestOptions = {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({
-                    "numero_pedido_filial": pedido?.pedidofilial,
-                    "codigo_usuario_liberador": this.state?.usuario,
-                    "justificativa": justificativa,
+                    numero_pedido_filial: pedido?.pedidofilial,
+                    codigo_usuario_liberador: this.state?.usuario,
+                    justificativa: justificativa,
                 })
             };
-            fetch(url, requestOptions)
+            await fetch(url, requestOptions)
                 .then(response => {
                     return response.json();
                 })
