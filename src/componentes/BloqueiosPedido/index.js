@@ -55,7 +55,7 @@ export default class BloqueiosPedido extends Component {
                 "numero_pedido_filial": this.state?.pedido?.pedidofilial,
                 "codigo_usuario_liberador": this.state?.usuarioLiberador,
                 "justificativa": justificativa,
-                "item_bloqueio": indiceItem,
+                "item_bloqueio": indiceItem
             })
         };
         fetch(url, requestOptions)
