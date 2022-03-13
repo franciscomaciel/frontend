@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Container, Row, Col, Button} from 'react-bootstrap';
 import Dialog from 'react-bootstrap-dialog';
+import exit from "exit";
 
 
 export default class BloqueiosPedido extends Component {
@@ -52,20 +53,26 @@ export default class BloqueiosPedido extends Component {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
-                "numero_pedido_filial": this.state?.pedido?.pedidofilial,
-                "codigo_usuario_liberador": this.state?.usuarioLiberador,
-                "justificativa": justificativa,
-                "item_bloqueio": indiceItem
+                numero_pedido_filial: this.state?.pedido?.pedidofilial,
+                codigo_usuario_liberador: this.state?.usuarioLiberador,
+                justificativa: justificativa,
+                item_bloqueio: indiceItem
             })
         };
+        // *!* RECEBE *TODOS OS DADOS CORRETAMENTE*; PROBLEMA É NA CHAMADA (POST) DE DESBLOQUEAR-ITEM-PEDIDO.
         fetch(url, requestOptions)
             .then(response => {
+                console.log('Recebeu o JSON: ' + response.json());
                 return response.json();
             })
-            .then(data => {
-                this.setState({ bloqueiosPedido: data });
-            })
-            .catch(error => console.log(error));
+            .catch( (error) => {
+                alert('Erro: ' + error.message);
+            });
+        //     .then(data => {
+        //         console.log('Setou os dados: ' + data);
+        //         this.setState({ bloqueiosPedido: data });
+        //     })
+        //     .catch(error => console.log(error));
     }
 
     renderBloqueioPedido = (bloqueio, indice) => {
