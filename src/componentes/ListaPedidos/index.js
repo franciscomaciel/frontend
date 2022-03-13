@@ -114,7 +114,7 @@ export default class ListaPedidos extends React.Component {
             <Button data-tip data-for="detalhesBloqueioTip" className="bg-danger"
                     onClick={(evt) => {
                         this.detalhesBloqueioClickHandler(pedido)
-                    }}>{pedido.motivobloqueio}
+                    }}>{(pedido?.motivobloqueio?.trim())?.slice(0, -1)}
             </Button><br/>
             <ReactTooltip id="detalhesBloqueioTip" place="top" effect="solid">Clique para ver os detalhes do
                 bloqueio.</ReactTooltip>
