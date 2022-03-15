@@ -66,7 +66,7 @@ export default class DetalhesPedido extends Component {
         }
 */
 
-        desbloquearPedido = async (pedido, justificativa) => {
+        desbloquearPedido = (pedido, justificativa) => {
             const backend_url = process.env.REACT_APP_CONNECTOR_BACKEND_URL;
             const url = `${backend_url}/desbloquear-pedido/`;
             const requestOptions = {
@@ -78,9 +78,11 @@ export default class DetalhesPedido extends Component {
                     justificativa: justificativa,
                 })
             };
-            await fetch(url, requestOptions)
+            fetch(url, requestOptions)
                 .then(response => {
-                    return response.json();
+                    if(response.ok) {
+                        return response.json();
+                    }
                 })
                 .then(d => {
                     this.setState({ pedidos: [d], carregando: false });
