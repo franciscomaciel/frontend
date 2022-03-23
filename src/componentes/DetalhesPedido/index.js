@@ -5,6 +5,7 @@ import BloqueiosPedido from '../BloqueiosPedido';
 import ItensPedido from '../ItensPedido';
 import NumberFormat from "react-number-format";
 import Dialog from "react-bootstrap-dialog";
+import { api } from '../../services/api';
 
 export default class DetalhesPedido extends Component {
 
@@ -69,25 +70,17 @@ export default class DetalhesPedido extends Component {
         desbloquearPedido = (pedido, justificativa) => {
             const backend_url = process.env.REACT_APP_CONNECTOR_BACKEND_URL;
             const url = `${backend_url}/desbloquear-pedido/`;
-            const requestOptions = {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({
+            const dadosLiberacao = {
                     numero_pedido_filial: pedido?.pedidofilial,
                     codigo_usuario_liberador: this.state?.usuario,
-                    justificativa: justificativa,
-                })
+                    justificativa: justificativa
             };
-            fetch(url, requestOptions)
+            api.post(url, dadosLiberacao)
                 .then(response => {
                     if(response.ok) {
-                        return response.json();
-                    }
-                })
-                .then(d => {
-                    this.setState({ pedidos: [d], carregando: false });
-                })
-                .catch(error => console.log(error));
+                        this.setState({ pedidos: [response.data], carregando: false  });
+                    }})
+                .catch( err => console.log(err) );
         }
 
     botaoDesbloquearTodosHandler = () => {

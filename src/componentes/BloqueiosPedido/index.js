@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Container, Row, Col, Button} from 'react-bootstrap';
 import Dialog from 'react-bootstrap-dialog';
+import { api } from '../../services/api';
 
 
 export default class BloqueiosPedido extends Component {
@@ -48,28 +49,18 @@ export default class BloqueiosPedido extends Component {
     desbloquearItemPedido = (indiceItem, justificativa) => {
         const backend_url = process.env.REACT_APP_CONNECTOR_BACKEND_URL;
         const url = `${backend_url}/desbloquear-item-pedido/`;
-        const requestOptions = {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({
-                numero_pedido_filial: this.state?.pedido?.pedidofilial,
-                codigo_usuario_liberador: this.state?.usuarioLiberador,
-                justificativa: justificativa,
-                item_bloqueio: indiceItem
-            })
+        const dadosLiberacao = {
+            numero_pedido_filial: this.state?.pedido?.pedidofilial,
+            codigo_usuario_liberador: this.state?.usuarioLiberador,
+            justificativa: justificativa,
+            item_bloqueio: indiceItem
         };
-        fetch(url, requestOptions)
+        api.post(url, dadosLiberacao)
             .then(response => {
                 if(response.ok) {
-                    return response.json();
-                }
-            })
-            .then(data => {
-                this.setState({ bloqueiosPedido: data });
-            })
-            .catch( (error) => {
-                console.log('Erro: ' + error.message);
-            });
+                    this.setState({ bloqueiosPedido: [response.data] });
+                }})
+            .catch( err => console.log(err) );
     }
 
     renderBloqueioPedido = (bloqueio, indice) => {
