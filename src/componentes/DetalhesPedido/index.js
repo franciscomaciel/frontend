@@ -83,23 +83,6 @@ export default class DetalhesPedido extends Component {
                 .catch( err => console.log(err) );
         }
 
-    botaoDesbloquearTodosHandler = () => {
-        Dialog.setOptions({'defaultCancelLabel': 'Cancelar'});
-        this.dialog.show({
-            body: 'Justificativa para o desbloqueio:',
-            prompt: Dialog.TextPrompt({placeholder: 'Entre com a justificativa', required: true}),
-            actions: [
-                Dialog.CancelAction(),
-                Dialog.OKAction((dialog) => {
-                    const justificativa = dialog.value;
-                    this.desbloquearPedido(this.state.pedido, justificativa);
-                    this.props.onHideSuccess();
-                    window.location.reload(false);    // *!* TESTE
-                })
-            ]
-        });
-    }
-
     renderCabecalhoPedido = () => {
         let estiloBorda = {
             border: '1px solid #fff',
@@ -237,8 +220,6 @@ export default class DetalhesPedido extends Component {
                     {result}
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="success" disabled={!this.state.isUsuarioAutorizado}
-                            onClick={this.botaoDesbloquearTodosHandler}>Desbloquear Todos</Button>
                     <Button variant="danger" onClick={this.props.onHideCancel}>Fechar</Button>
                     <Dialog ref={(component) => { this.dialog = component }} />
                 </Modal.Footer>
