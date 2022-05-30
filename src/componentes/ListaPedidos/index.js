@@ -57,7 +57,7 @@ export default class ListaPedidos extends React.Component {
     }
 
     formatarData = (data) => {
-        let dummy  = new Date(data);
+        let dummy = new Date(data);
         let dataFormatada = dummy.toLocaleDateString('pt-BR', {timeZone: 'UTC'});
         return dataFormatada;
     }
@@ -69,7 +69,8 @@ export default class ListaPedidos extends React.Component {
                     mostrarDetalhesPedido: true
                 }
             );
-        };
+        }
+        ;
     }
 
     detalhesBloqueioClickHandler = (pedido) => this.selecionarPedidoParaExibirDetalhes(pedido);
@@ -97,55 +98,59 @@ export default class ListaPedidos extends React.Component {
         // const result = pedido.filial == "04" ?
         const result = this.props.filtro && pedido.filial === this.props.filtro ?
             (
-            <>
-        <article className="listagem-artigos mb-3 p-3" key={indice}>
-            Vendedor: <span className="font-weight-bold">{pedido.vendedor}</span> <br/>
-            Cliente: <span className="font-weight-bold">{pedido.cliente}</span> <br/>
-            Filial: <span className="font-weight-bold">{pedido.filial}</span> - Pedido Número: <span
-            className="font-weight-bold"> {pedido.pedido} </span><br/>
-            Valor: <span className="font-weight-bold"><NumberFormat value={pedido.valor} displayType={'text'}
-                                                                    thousandSeparator={'.'}
-                                                                    decimalSeparator={','} prefix={'R$ '}
-                                                                    decimalScale={2} fixedDecimalScale={true}/>
+                <>
+                    <article className="listagem-artigos mb-3 p-3" key={indice}>
+                        Vendedor: <span className="font-weight-bold">{pedido.vendedor}</span> <br/>
+                        Cliente: <span className="font-weight-bold">{pedido.cliente}</span> <br/>
+                        Filial: <span className="font-weight-bold">{pedido.filial}</span> - Pedido Número: <span
+                        className="font-weight-bold"> {pedido.pedido} </span><br/>
+                        Valor: <span className="font-weight-bold"><NumberFormat value={pedido.valor}
+                                                                                displayType={'text'}
+                                                                                thousandSeparator={'.'}
+                                                                                decimalSeparator={','} prefix={'R$ '}
+                                                                                decimalScale={2}
+                                                                                fixedDecimalScale={true}/>
                             </span><br/>
-            Emissão: <span className="font-weight-bold">{this.formatarData(pedido.emissao)} </span> -
-            Entrada: <span className="font-weight-bold">{this.formatarData(pedido.entrada)}</span> <br/>
-            Bloqueios:
-            <Button data-tip data-for="detalhesBloqueioTip" className="bg-danger"
-                    onClick={(evt) => {
-                        this.detalhesBloqueioClickHandler(pedido)
-                    }}>{(pedido?.motivobloqueio?.trim())?.slice(0, -1)}
-            </Button><br/>
-            <ReactTooltip id="detalhesBloqueioTip" place="top" effect="solid">Clique para ver os detalhes do
-                bloqueio.</ReactTooltip>
-        </article>
+                        Emissão: <span className="font-weight-bold">{this.formatarData(pedido.emissao)} </span> -
+                        Entrada: <span className="font-weight-bold">{this.formatarData(pedido.entrada)}</span> <br/>
+                        Bloqueios:
+                        <Button data-tip data-for="detalhesBloqueioTip" className="bg-danger"
+                                onClick={(evt) => {
+                                    this.detalhesBloqueioClickHandler(pedido)
+                                }}>{(pedido?.motivobloqueio?.trim())?.slice(0, -1)}
+                        </Button><br/>
+                        <ReactTooltip id="detalhesBloqueioTip" place="top" effect="solid">Clique para ver os detalhes do
+                            bloqueio.</ReactTooltip>
+                    </article>
                 </>
             )
-                :
+            :
             (
-            <>
-                <article className="listagem-artigos mb-3 p-3" key={indice}>
-                    Vendedor: <span className="font-weight-bold">{pedido.vendedor}</span> <br/>
-                    Cliente: <span className="font-weight-bold">{pedido.cliente}</span> <br/>
-                    Filial: <span className="font-weight-bold">{pedido.filial}</span> - Pedido Número: <span
-                    className="font-weight-bold"> {pedido.pedido} </span><br/>
-                    Valor: <span className="font-weight-bold"><NumberFormat value={pedido.valor} displayType={'text'}
-                                                                            thousandSeparator={'.'}
-                                                                            decimalSeparator={','} prefix={'R$ '}
-                                                                            decimalScale={2} fixedDecimalScale={true}/>
+                <>
+                    <article className="listagem-artigos mb-3 p-3" key={indice}>
+                        Vendedor: <span className="font-weight-bold">{pedido.vendedor}</span> <br/>
+                        Cliente: <span className="font-weight-bold">{pedido.cliente}</span> <br/>
+                        Filial: <span className="font-weight-bold">{pedido.filial}</span> - Pedido Número: <span
+                        className="font-weight-bold"> {pedido.pedido} </span><br/>
+                        Valor: <span className="font-weight-bold"><NumberFormat value={pedido.valor}
+                                                                                displayType={'text'}
+                                                                                thousandSeparator={'.'}
+                                                                                decimalSeparator={','} prefix={'R$ '}
+                                                                                decimalScale={2}
+                                                                                fixedDecimalScale={true}/>
                             </span><br/>
-                    Emissão: <span className="font-weight-bold">{this.formatarData(pedido.emissao)} </span> -
-                    Entrada: <span className="font-weight-bold">{this.formatarData(pedido.entrada)}</span> <br/>
-                    Bloqueios:
-                    <Button data-tip data-for="detalhesBloqueioTip" className="bg-danger"
-                            onClick={(evt) => {
-                                this.detalhesBloqueioClickHandler(pedido)
-                            }}>{(pedido?.motivobloqueio?.trim())?.slice(0, -1)}
-                    </Button><br/>
-                    <ReactTooltip id="detalhesBloqueioTip" place="top" effect="solid">Clique para ver os detalhes do
-                        bloqueio.</ReactTooltip>
-                </article>
-            </>
+                        Emissão: <span className="font-weight-bold">{this.formatarData(pedido.emissao)} </span> -
+                        Entrada: <span className="font-weight-bold">{this.formatarData(pedido.entrada)}</span> <br/>
+                        Bloqueios:
+                        <Button data-tip data-for="detalhesBloqueioTip" className="bg-danger"
+                                onClick={(evt) => {
+                                    this.detalhesBloqueioClickHandler(pedido)
+                                }}>{(pedido?.motivobloqueio?.trim())?.slice(0, -1)}
+                        </Button><br/>
+                        <ReactTooltip id="detalhesBloqueioTip" place="top" effect="solid">Clique para ver os detalhes do
+                            bloqueio.</ReactTooltip>
+                    </article>
+                </>
             )
         ;
         // : null;
@@ -176,15 +181,15 @@ export default class ListaPedidos extends React.Component {
                         (listaPedidos.map((pedido, index) => (listaPedidos[index]))).map((this.renderPedido))
                     }
                     {
-                this.state.mostrarDetalhesPedido && this.state.pedidoSelecionado &&
-                    <DetalhesPedido
-                        show={ this.state.mostrarDetalhesPedido }
-                        pedido={ this.state.pedidoSelecionado }
-                        onHideSuccess={ this.fecharModalDetalhesSucesso }
-                        onHideCancel={ this.fecharModalDetalhesCancelar }
-                        usuario = { this.getUsuarioConectado() }
-                        isUsuarioAutorizado={ this.isUsuarioAutorizado() }
-                    />
+                        this.state.mostrarDetalhesPedido && this.state.pedidoSelecionado &&
+                        <DetalhesPedido
+                            show={this.state.mostrarDetalhesPedido}
+                            pedido={this.state.pedidoSelecionado}
+                            onHideSuccess={this.fecharModalDetalhesSucesso}
+                            onHideCancel={this.fecharModalDetalhesCancelar}
+                            usuario={this.getUsuarioConectado()}
+                            isUsuarioAutorizado={this.isUsuarioAutorizado()}
+                        />
                     }
                 </>
             );
