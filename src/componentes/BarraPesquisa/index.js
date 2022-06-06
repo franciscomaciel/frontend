@@ -8,19 +8,20 @@ const SearchHeader = styled.div`
     margin-top: 4px;
 `;
 
-function SearchBar(props) {
+export  default  function SearchBar(props) {
 
     const [ filialSelecionada, setFilialSelecionada ] = useState('');
 
     function handleSubmit(evt) {
         evt.preventDefault();
-        this.props.setter(evt.target[0].value);
-        // alert('Filial selecionada: ' + evt.target[0].value);
+        let filialSelecionada = evt.target.value;  //         let filialSelecionada = evt.target[0].value;
+        this.props.setter(filialSelecionada);
     }
 
     function handleSearchChange(evt) {
         setFilialSelecionada(evt.target.value);
     }
+
     return (
         <SearchHeader>
             <Form onSubmit={handleSubmit}>
@@ -44,5 +45,3 @@ function SearchBar(props) {
         </SearchHeader>
     );
 }
-
-export default SearchBar;

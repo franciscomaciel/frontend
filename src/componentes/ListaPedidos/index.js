@@ -3,6 +3,7 @@ import {Button} from "react-bootstrap";
 import ReactTooltip from "react-tooltip";
 import DetalhesPedido from "../DetalhesPedido";
 import React from "react";
+import SearchBar from "../BarraPesquisa";
 
 export default class ListaPedidos extends React.Component {
 
@@ -25,8 +26,12 @@ export default class ListaPedidos extends React.Component {
         // this.renderDetalhesPedido = this.renderDetalhesPedido.bind(this);
         this.detalhesBloqueioClickHandler = this.detalhesBloqueioClickHandler.bind(this);
         this.isUsuarioAutorizado = this.isUsuarioAutorizado.bind(this);
+        this.setFiltro = this.setFiltro.bind(this);
     }
 
+    setFiltro(value) {
+        this.setState({ filialSelecionada: value });
+    }
 
     getUsuarioConectado = () => {
         return "PERRELLI";  // Substituir por código para obter o usuário atualmente conectado
@@ -96,7 +101,7 @@ export default class ListaPedidos extends React.Component {
     // PARA O FILTRO FUNCIONAR !!!!!!!! *!*
     renderPedido = (pedido, indice) => {
         // const result = pedido.filial == "04" ?
-        const result = this.props.filtro && pedido.filial === this.props.filtro ?
+        const result = this.props.filialSelecionada && pedido.filial === this.props.filialSelecionada ?
             (
                 <>
                     <article className="listagem-artigos mb-3 p-3" key={indice}>
@@ -177,6 +182,7 @@ export default class ListaPedidos extends React.Component {
         if (listaPedidos !== "[]") {
             result = (
                 <>
+                    <SearchBar setter={this.setFiltro.bind(this)} />
                     {
                         (listaPedidos.map((pedido, index) => (listaPedidos[index]))).map((this.renderPedido))
                     }
