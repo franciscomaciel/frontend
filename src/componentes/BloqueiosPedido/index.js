@@ -30,7 +30,7 @@ export default class BloqueiosPedido extends Component {
         return dummy.toLocaleDateString('pt-BR', {timeZone: 'UTC'});
     }
 
-    exibirCaixaDialogoMotivoDesbloqueio = (indiceItemBloqueio) => {
+    exibirCaixaDialogoMotivoDesbloqueio = (sequenciaItemBloqueio) => {
         Dialog.setOptions({'defaultCancelLabel': 'Cancelar'});
         this.dialog.show({
             body: 'Justificativa para o desbloqueio:',
@@ -39,21 +39,21 @@ export default class BloqueiosPedido extends Component {
                 Dialog.CancelAction(),
                 Dialog.OKAction((dialog) => {
                     const justificativa = dialog.value;
-                    this.desbloquearItemPedido(indiceItemBloqueio, justificativa);
+                    this.desbloquearItemPedido(sequenciaItemBloqueio, justificativa);
                     window.location.reload(false);    // *!* TESTE
                 })
             ]
         });
     }
 
-    desbloquearItemPedido = (indiceItem, justificativa) => {
+    desbloquearItemPedido = (sequencia, justificativa) => {
         const backend_url = process.env.REACT_APP_CONNECTOR_BACKEND_URL;
         const url = `${backend_url}/desbloquear-item-pedido/`;
         const dadosLiberacao = {
             numero_pedido_filial: this.state?.pedido?.pedidofilial,
             codigo_usuario_liberador: this.state?.usuarioLiberador,
             justificativa: justificativa,
-            item_bloqueio: indiceItem
+            sequencia: sequencia
         };
         api.post(url, dadosLiberacao)
             .then(response => {
@@ -63,15 +63,15 @@ export default class BloqueiosPedido extends Component {
             .catch( err => console.log(err) );
     }
 
-    renderBloqueioPedido = (bloqueio, indice) => {
+    renderBloqueioPedido = (bloqueio, sequencia) => {
         return (
             <>
-                <Row key={indice}>
+                <Row key={sequencia}>
                     <Col sm> Data: <span className="font-weight-bold sm">{this.ajustarData(bloqueio.dt_inclusao)}</span> </Col>
                     <Col sm> Motivo: <span className="font-weight-bold sm">{bloqueio.ds_motivo}</span> </Col>
                     <Col sm> <Button variant="success" disabled={false && !this.state.isUsuarioAutorizado}
                                      onClick={
-                                         ()=> this.exibirCaixaDialogoMotivoDesbloqueio(bloqueio.item_motivo)  // this.desbloquearItemPedido(bloqueio.item_motivo)
+                                         ()=> this.exibirCaixaDialogoMotivoDesbloqueio(bloqueio.sequencia)
                                      }
                             >
                                     Desbloquear
