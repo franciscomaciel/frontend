@@ -48,19 +48,30 @@ export default class BloqueiosPedido extends Component {
 
     desbloquearItemPedido = (sequencia, justificativa) => {
         const backend_url = process.env.REACT_APP_CONNECTOR_BACKEND_URL;
-        const url = `${backend_url}/desbloquear-item-pedido/`;
+        // const url = `${backend_url}/desbloquear-item-pedido/`;
+        const url = '/desbloquear-item-pedido/';
         const dadosLiberacao = {
             numero_pedido_filial: this.state?.pedido?.pedidofilial,
             codigo_usuario_liberador: this.state?.usuarioLiberador,
             justificativa: justificativa,
             sequencia: sequencia
         };
-        api.post(url, dadosLiberacao)
-            .then(response => {
-                if(response.ok) {
-                    this.setState({ bloqueiosPedido: [response.data] });
-                }})
-            .catch( err => console.log(err) );
+        async function fetchData() {
+            // await api.post(url, dadosLiberacao)
+            //     .then(response => {
+            //         if(response.ok) {
+            //             this.setState({ bloqueiosPedido: [response.data] });
+            //         }})
+            //     .catch( err => console.log(err) );
+            try {
+                const response = await api.post(url, dadosLiberacao);
+                this.setState({ bloqueiosPedido: [response.data] });
+            } catch(err) {
+                console.log(err);
+            }
+
+        }
+        fetchData();
     }
 
     renderBloqueioPedido = (bloqueio, sequencia) => {
@@ -69,6 +80,7 @@ export default class BloqueiosPedido extends Component {
                 <Row key={sequencia}>
                     <Col sm> Data: <span className="font-weight-bold sm">{this.ajustarData(bloqueio.dt_inclusao)}</span> </Col>
                     <Col sm> Motivo: <span className="font-weight-bold sm">{bloqueio.ds_motivo}</span> </Col>
+                    <Col sm> SEQUÊNCIA: <span className="font-weight-bold sm">{bloqueio.sequencia}</span> </Col>
                     <Col sm> <Button variant="success" disabled={false && !this.state.isUsuarioAutorizado}
                                      onClick={
                                          ()=> this.exibirCaixaDialogoMotivoDesbloqueio(bloqueio.sequencia)

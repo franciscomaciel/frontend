@@ -23,33 +23,49 @@ export default class ItensPedido extends Component {
         this.setState({itensPedido: data});
     }
 
-    // renderItemPedido = (itemPedido, indice) => {
-    //     return (
-    //         <>
-    //             <Row key={indice}>
-    //                 ITEM_PEDIDO: {JSON.stringify(itemPedido)}
-    //                 {/*<Col sm> Data: <span className="font-weight-bold sm">{JSON.stringify(itemPedido)}</span> </Col>*/}
-    //                 {/*<Col sm> Motivo: <span className="font-weight-bold sm">{itemPedido.ds_motivo}</span> </Col>*/}
-    //             </Row>
-    //             <br/>
-    //             <hr/>
-    //         </>
-    //     );
-    // }
-
     renderItemPedido = (itemPedido, indice) => {
         return (
             <>
-                <Row key={indice}>
                     <Row>
-                        <Col sm> N° Item: <span className="font-weight-bold sm">{itemPedido.nu_item}</span> </Col>
-                        <Col sm> Descrição: <span className="font-weight-bold sm">{itemPedido.codigo_produto} -
-                            {itemPedido.descricao_produto}</span> </Col>
+                        <Col sm> Código: <span className="font-weight-bold sm"> {itemPedido.codigo_produto}</span> </Col>
                     </Row>
-                    <br/>
                     <Row>
+                        <Col sm> Descrição:<br/>
+                            <span className="font-weight-bold sm">{itemPedido.descricao_produto}</span>
+                        </Col>
+                    </Row>
+                    <Row>
+                        &nbsp;
+                    </Row>
+                    <Row>
+
                         <Col> QTD: <span className="font-weight-bold">{itemPedido.quantidade}</span> </Col>
+                    </Row>
+                    <Row>
                         <Col> Volumes: <span className="font-weight-bold">{itemPedido.volumes}</span> </Col>
+                    </Row>
+                    <Row>
+                        <Col> Vl.Item: <span className="font-weight-bold"><NumberFormat value={itemPedido.valor}
+                                                                                        displayType={'text'}
+                                                                                        thousandSeparator={'.'}
+                                                                                        decimalSeparator={','}
+                                                                                        prefix={'R$ '}
+                                                                                        decimalScale={2}
+                                                                                        fixedDecimalScale={true}/></span>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col className="sm"> Valor Unit.: <span className="font-weight-bold"><NumberFormat
+                            value={itemPedido.preco_unitario}
+                            displayType={'text'}
+                            thousandSeparator={'.'}
+                            decimalSeparator={','}
+                            prefix={'R$ '}
+                            decimalScale={2}
+                            fixedDecimalScale={true}/></span>
+                        </Col>
+                    </Row>
+                    <Row>
                         <Col> Custo: <span className="font-weight-bold"><NumberFormat value={itemPedido.custo_medio}
                                                                                displayType={'text'}
                                                                                thousandSeparator={'.'}
@@ -59,24 +75,11 @@ export default class ItensPedido extends Component {
                                                                                fixedDecimalScale={true}/></span>
                         </Col>
                     </Row>
+                <Row>
+                    <Col> Custo Reposição: <span className="font-weight-bold"> Custo repos. </span>
+                    </Col>
+                </Row>
                     <Row>
-                        <Col class="sm"> Valor Unit.: <span className="font-weight-bold"><NumberFormat
-                            value={itemPedido.preco_unitario}
-                            displayType={'text'}
-                            thousandSeparator={'.'}
-                            decimalSeparator={','}
-                            prefix={'R$ '}
-                            decimalScale={2}
-                            fixedDecimalScale={true}/></span>
-                        </Col>
-                        <Col> Vl.Item: <span className="font-weight-bold"><NumberFormat value={itemPedido.valor}
-                                                                                        displayType={'text'}
-                                                                                        thousandSeparator={'.'}
-                                                                                        decimalSeparator={','}
-                                                                                        prefix={'R$ '}
-                                                                                        decimalScale={2}
-                                                                                        fixedDecimalScale={true}/></span>
-                        </Col>
                         <Col> %MB: <span className="font-weight-bold"><NumberFormat value={itemPedido.perc_mb}
                                                                                     displayType={'text'}
                                                                                     thousandSeparator={'.'}
@@ -86,7 +89,10 @@ export default class ItensPedido extends Component {
                                                                                     fixedDecimalScale={true}/></span>
                         </Col>
                     </Row>
-                </Row>
+                    <Row>
+                        <Col> %MB reposição: <span className="font-weight-bold"> %MB repos. </span>
+                        </Col>
+                    </Row>
                 <hr/>
             </>
         );
