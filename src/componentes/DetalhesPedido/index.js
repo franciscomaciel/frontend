@@ -13,7 +13,6 @@ export default class DetalhesPedido extends Component {
         super(props);
         this.state = {
             pedido: props.pedido,
-            isUsuarioAutorizado: props.isUsuarioAutorizado,
             isListaPreenchida: false,
             usuario: props.usuario,
             justificativa: "",

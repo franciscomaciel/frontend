@@ -4,6 +4,7 @@ import ReactTooltip from "react-tooltip";
 import DetalhesPedido from "../DetalhesPedido";
 import React from "react";
 import SearchBar from "../BarraPesquisa";
+import Keycloak  from "keycloak-js";
 
 export default class ListaPedidos extends React.Component {
 
@@ -17,6 +18,8 @@ export default class ListaPedidos extends React.Component {
             exibirMensagem: false,
             mensagem: "",
             filialSelecionada: "",
+            keycloak: null,
+            authenticated: false
         }
         this.getUsuarioConectado = this.getUsuarioConectado.bind(this);
         this.fecharModalDetalhesCancelar = this.fecharModalDetalhesCancelar.bind(this);
@@ -25,7 +28,6 @@ export default class ListaPedidos extends React.Component {
         this.renderPedido = this.renderPedido.bind(this);
         // this.renderDetalhesPedido = this.renderDetalhesPedido.bind(this);
         this.detalhesBloqueioClickHandler = this.detalhesBloqueioClickHandler.bind(this);
-        this.isUsuarioAutorizado = this.isUsuarioAutorizado.bind(this);
         this.setFiltro = this.setFiltro.bind(this);
     }
 
@@ -35,10 +37,6 @@ export default class ListaPedidos extends React.Component {
 
     getUsuarioConectado = () => {
         return "PERRELLI";  // Substituir por código para obter o usuário atualmente conectado
-    }
-
-    isUsuarioAutorizado = () => {
-        return true;
     }
 
     fecharModalDetalhesCancelar = () => {
@@ -81,8 +79,18 @@ export default class ListaPedidos extends React.Component {
     detalhesBloqueioClickHandler = (pedido) => this.selecionarPedidoParaExibirDetalhes(pedido);
 
     async componentDidMount() {
+        const keycloak = Keycloak('./keycloak.json');
         const backend_url = process.env.REACT_APP_CONNECTOR_BACKEND_URL;
         const url = `${backend_url}/pedidos-bloqueados/`;
+        // ----------------- Inicialização do Keycloak -------------------
+        keycloak.init({ onLoad: 'login-required'}).then(authenticated => {
+            this.setState({ keycloak: keycloak, authenticated: authenticated});
+            if(authenticated) {
+                localStorage.accessToken = keycloak.token;
+            }
+        });
+
+        // ----------------- Até aqui ------------------------------------
         await fetch(url)
             .then(response => {
                 return response.json();
@@ -180,29 +188,36 @@ export default class ListaPedidos extends React.Component {
     render() {
         const listaPedidos = this.state.pedidos;
         let result;
-        if (listaPedidos !== "[]") {
-            result = (
-                <>
-                    <SearchBar setter={this.setFiltro.bind(this)} />
-                    {
-                        (listaPedidos.map((pedido, index) => (listaPedidos[index]))).map((this.renderPedido))
-                    }
-                    {
-                        this.state.mostrarDetalhesPedido && this.state.pedidoSelecionado &&
-                        <DetalhesPedido
-                            show={this.state.mostrarDetalhesPedido}
-                            pedido={this.state.pedidoSelecionado}
-                            onHideSuccess={this.fecharModalDetalhesSucesso}
-                            onHideCancel={this.fecharModalDetalhesCancelar}
-                            usuario={this.getUsuarioConectado()}
-                            isUsuarioAutorizado={this.isUsuarioAutorizado()}
-                        />
-                    }
-                </>
-            );
+        if (this.state.keycloak) {
+            if(this.state.authenticated) {
+                if (listaPedidos !== "[]") {
+                    result = (
+                        <>
+                            <SearchBar setter={this.setFiltro.bind(this)} />
+                            {
+                                (listaPedidos.map((pedido, index) => (listaPedidos[index]))).map((this.renderPedido))
+                            }
+                            {
+                                this.state.mostrarDetalhesPedido && this.state.pedidoSelecionado &&
+                                <DetalhesPedido
+                                    show={this.state.mostrarDetalhesPedido}
+                                    pedido={this.state.pedidoSelecionado}
+                                    onHideSuccess={this.fecharModalDetalhesSucesso}
+                                    onHideCancel={this.fecharModalDetalhesCancelar}
+                                    usuario={this.getUsuarioConectado()}
+                                />
+                            }
+                        </>
+                    );
+                } else {
+                    result = (
+                        <span className="h1 text-danger">Nenhum pedido bloqueado atualmente.</span>
+                    );
+                }
+            }
         } else {
             result = (
-                <span className="h1 text-danger">Nenhum pedido bloqueado atualmente.</span>
+                <span className="h1 text-danger">Inicializando subsistema de controle de acesso...</span>
             );
         }
         return (

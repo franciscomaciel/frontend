@@ -2,7 +2,7 @@
   "name": "frontend",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:8000",
+  "proxy": "http://10.10.10.236:8000",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.36",
     "@fortawesome/free-solid-svg-icons": "^5.15.4",
@@ -12,6 +12,9 @@
     "@testing-library/user-event": "^12.1.10",
     "axios": "^0.21.1",
     "bootstrap": "^4.6.0",
+    "es6-promise": "^4.2.8",
+    "isomorphic-fetch": "^3.0.0",
+    "keycloak-js": "^18.0.1",
     "react": "^17.0.1",
     "react-bootstrap": "^1.5.2",
     "react-bootstrap-dialog": "^0.13.0",
