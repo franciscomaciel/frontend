@@ -214,6 +214,10 @@ export default class ListaPedidos extends React.Component {
                         <span className="h1 text-danger">Nenhum pedido bloqueado atualmente.</span>
                     );
                 }
+            } else {
+                result = (
+                    <span className="h1 text-danger">Usuário não autorizado</span>
+                );
             }
         } else {
             result = (
