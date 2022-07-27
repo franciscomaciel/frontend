@@ -5,6 +5,7 @@ import DetalhesPedido from "../DetalhesPedido";
 import React from "react";
 import SearchBar from "../BarraPesquisa";
 import Keycloak  from "keycloak-js";
+import { useKeycloak } from "@react-keycloak/web";
 
 export default class ListaPedidos extends React.Component {
 
@@ -19,7 +20,8 @@ export default class ListaPedidos extends React.Component {
             mensagem: "",
             filialSelecionada: "",
             keycloak: null,
-            authenticated: false
+            authenticated: false,
+            usuarioConectado:null
         }
         this.getUsuarioConectado = this.getUsuarioConectado.bind(this);
         this.fecharModalDetalhesCancelar = this.fecharModalDetalhesCancelar.bind(this);
@@ -36,7 +38,10 @@ export default class ListaPedidos extends React.Component {
     }
 
     getUsuarioConectado = () => {
-        return "PERRELLI";  // Substituir por código para obter o usuário atualmente conectado
+        if(this.state.usuarioConectado)
+            return this.state?.usuarioConectado?.preferred_username;
+        else
+            return "Usuário ainda não se conectou.";  // Substituir por código para obter o usuário atualmente conectado
     }
 
     fecharModalDetalhesCancelar = () => {
@@ -79,7 +84,7 @@ export default class ListaPedidos extends React.Component {
     detalhesBloqueioClickHandler = (pedido) => this.selecionarPedidoParaExibirDetalhes(pedido);
 
     async componentDidMount() {
-        const keycloak = Keycloak('./keycloak.json');
+        const keycloak = new Keycloak('keycloak.json');
         const backend_url = process.env.REACT_APP_CONNECTOR_BACKEND_URL;
         const url = `${backend_url}/pedidos-bloqueados/`;
         // ----------------- Inicialização do Keycloak -------------------
@@ -87,6 +92,9 @@ export default class ListaPedidos extends React.Component {
             this.setState({ keycloak: keycloak, authenticated: authenticated});
             if(authenticated) {
                 localStorage.accessToken = keycloak.token;
+                keycloak.loadUserInfo().then(userInfo => {
+                    this.setState({usuarioConectado : userInfo});
+                });
             }
         });
 
